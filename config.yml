@@ -1,4 +1,6 @@
 ---
+hostname: "homestead"
+
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
@@ -9,12 +11,12 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
-      to: /home/vagrant/Code
+    - map: ./www
+      to: /home/vagrant/laravel
 
 sites:
     - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+      to: /home/vagrant/laravel/public
 
 databases:
     - homestead

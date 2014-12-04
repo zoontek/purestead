@@ -3,9 +3,9 @@ require 'yaml'
 
 VAGRANTFILE_API_VERSION = "2"
 
-homesteadYamlPath = File.expand_path("~/.homestead/Homestead.yaml")
-afterScriptPath = File.expand_path("~/.homestead/after.sh")
-aliasesPath = File.expand_path("~/.homestead/aliases")
+configYmlPath = File.expand_path("./config.yml")
+afterScriptPath = File.expand_path("./vagrant/after.sh")
+aliasesPath = File.expand_path("./aliases")
 
 require_relative 'scripts/homestead.rb'
 
@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
 	end
 
-	Homestead.configure(config, YAML::load(File.read(homesteadYamlPath)))
+	Homestead.configure(config, YAML::load(File.read(configYmlPath)))
 
 	if File.exists? afterScriptPath then
 		config.vm.provision "shell", path: afterScriptPath

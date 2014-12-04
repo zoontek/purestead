@@ -2,14 +2,14 @@ class Homestead
   def Homestead.configure(config, settings)
     # Configure The Box
     config.vm.box = "laravel/homestead"
-    config.vm.hostname = "homestead"
+    config.vm.hostname = settings["hostname"] || "homestead"
 
     # Configure A Private Network IP
     config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
 
     # Configure A Few VirtualBox Settings
     config.vm.provider "virtualbox" do |vb|
-      vb.name = 'homestead'
+      vb.name = settings["hostname"] || "homestead"
       vb.customize ["modifyvm", :id, "--memory", settings["memory"] ||= "2048"]
       vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] ||= "1"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
