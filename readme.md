@@ -16,10 +16,10 @@ vagrant box add laravel/homestead
 git clone https://github.com/zoontek/purestead.git & cd purestead
 ```
 
-3. Edit config.yml.
+3. Edit config.yml. You can change the VM name (infinite VMs, yeah!)
 
 ```yaml
-hostname: "homestead" *you can change the VM name (infinite VMs, yeah!)*
+hostname: "homestead"
 …
 ```
 
