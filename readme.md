@@ -4,26 +4,26 @@ Use Laravel Homestead, the Vagrant way: simple config, no specific CLI, infinite
 
 Before everything, you must install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
 
-1. Download the Vagrant box.
+1) Download the Vagrant box.
 
 ```
 vagrant box add laravel/homestead
 ```
 
-2. Clone this repository.
+2) Clone this repository.
 
 ```
 git clone https://github.com/zoontek/purestead.git & cd purestead
 ```
 
-3. Edit config.yml. You can change the VM name (infinite VMs, yeah!)
+3) Edit config.yml. You can change the VM name (infinite VMs, yeah!)
 
 ```yaml
 hostname: "homestead"
 …
 ```
 
-4. Start your engine.
+4) Gentleman, start your engine.
 
 ```
 vagrant up
