@@ -9,7 +9,7 @@ afterScriptPath = File.expand_path("./vagrant/after.sh")
 require_relative 'scripts/homestead.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-	Homestead.configure(config, YAML::load(File.read(configYamlPath)))
+	Purestead.configure(config, YAML::load(File.read(configYamlPath)))
 
 	if File.exists? afterScriptPath then
 		config.vm.provision "shell", path: afterScriptPath

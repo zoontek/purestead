@@ -13,10 +13,16 @@ keys:
 folders:
     - map: ./www/default
       to: /home/vagrant/default
+    ### another example ###
+    # - map: ~/Projects/awesome
+    #   to: /home/vagrant/awesome
 
 sites:
     - map: homestead.app
       to: /home/vagrant/default/public
+    ### another example ###
+    # - map: awesome.app
+    #   to: /home/vagrant/awesome/public
 
 databases:
     - homestead
