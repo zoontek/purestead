@@ -1,0 +1,11 @@
+function serve() {
+  if [[ "$1" && "$2" && "$3" ]]
+  then
+    sudo dos2unix /vagrant/scripts/serve-$1.sh
+    sudo bash /vagrant/scripts/serve-$1.sh "$2" "$3"
+  else
+    echo "Error: missing required parameters."
+    echo "Usage: "
+    echo "  serve php/hhvm domain path"
+  fi
+}
