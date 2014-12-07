@@ -1,5 +1,5 @@
 ---
-hostname: "osef"
+hostname: "homestead"
 ip: "192.168.10.10"
 memory: 2048
 cpus: 1
