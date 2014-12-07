@@ -20,13 +20,11 @@ git clone https://github.com/zoontek/purestead.git
 cd purestead
 ```
 
-3) Edit config.yaml. You can change the VM name (for infinite VMs), the database username and password.
+3) Edit config.yaml. You can change the VM name (for infinite VMs).
 
 ```yaml
 hostname: "homestead"
 …
-username: "homestead"
-password: "secret"
 ```
 
 4) Run your VM.

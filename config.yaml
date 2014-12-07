@@ -1,28 +1,20 @@
 ---
-# VM settings
-hostname: "homestead"
+hostname: "osef"
 ip: "192.168.10.10"
-cpus: 1
 memory: 2048
+cpus: 1
 
-# Sync folders
 folders:
   - map: ./www/default
     to: /home/vagrant/default
 
-# Nginx sites
 sites:
   - map: homestead.app
     to: /home/vagrant/default/public
 
-# Databases settings
-username: "homestead"
-password: "secret"
-
 databases:
   - homestead
 
-# Environment variables
 variables:
   - key: APP_ENV
     value: local
