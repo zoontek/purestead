@@ -31,12 +31,12 @@ hostname: "homestead"
 
 ```
 vagrant up
-``` 
+```
 
 5) Connect to SSH.
 
 ```
 vagrant ssh
-``` 
+```
 
 Feel free to check [Homestead](http://laravel.com/docs/4.2/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.

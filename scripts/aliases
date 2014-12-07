@@ -1,11 +1,28 @@
 function serve() {
-  if [[ "$1" && "$2" && "$3" ]]
+  echo "\"serve\" command is not available in Purestead."
+  echo "Use \"serve-hhvm\" or \"serve-php\" instead."
+}
+
+function serve-hhvm() {
+  if [[ "$1" && "$2" ]]
   then
-    sudo dos2unix /vagrant/scripts/serve-$1.sh
-    sudo bash /vagrant/scripts/serve-$1.sh "$2" "$3"
+    sudo dos2unix /vagrant/scripts/serve-hhvm.sh
+    sudo bash /vagrant/scripts/serve-hhvm.sh "$1" "$2"
   else
     echo "Error: missing required parameters."
     echo "Usage: "
-    echo "  serve php/hhvm domain path"
+    echo "  serve-hhvm domain path"
+  fi
+}
+
+function serve-php() {
+  if [[ "$1" && "$2" ]]
+  then
+    sudo dos2unix /vagrant/scripts/serve-php.sh
+    sudo bash /vagrant/scripts/serve-php.sh "$1" "$2"
+  else
+    echo "Error: missing required parameters."
+    echo "Usage: "
+    echo "  serve-php domain path"
   fi
 }
