@@ -35,10 +35,10 @@ folders:
 # Nginx sites (unlimited)
 # For HHVM, set hhvm: true
 sites:
-  - map: /home/vagrant/default/public
-    to: homestead.app
+  - map: homestead.app
+    to: /home/vagrant/project/public
 
-# MySQL & PgSQL databases (unlimited)
+# Databases (unlimited)
 databases:
   - homestead
 

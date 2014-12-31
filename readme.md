@@ -1,13 +1,16 @@
 # Purestead
 
-Use Laravel Homestead, the Vagrant way:
-- Simple config
-- No specific CLI
-- Infinite VMs
+Use Laravel Homestead, the Vagrant way
+- VMware compatibility
+- No SSH configuration
+- Ports forwarding configuration
+- Mutiple named VMs
+- No specific PHP CLI
+- Works well on Windows
 
 Before everything, you must install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
 
-1) Download the Vagrant box.
+1) Download the Homestead Vagrant box.
 
 ```
 vagrant box add laravel/homestead
@@ -20,12 +23,7 @@ git clone https://github.com/zoontek/purestead.git
 cd purestead
 ```
 
-3) Edit config.yaml. You can change the VM name (for infinite VMs).
-
-```yaml
-hostname: "homestead"
-…
-```
+3) Edit config.yaml (*don't worry, everythng is commented*).
 
 4) Run your VM.
 
