@@ -23,7 +23,7 @@ git clone https://github.com/zoontek/purestead.git
 cd purestead
 ```
 
-3) Edit config.yaml (*don't worry, everythng is commented*).
+3) Edit config.yaml (*don't worry, everything is commented*).
 
 4) Run your VM.
 
