@@ -1,20 +1,47 @@
 ---
-hostname: "homestead"
+# Vagrant default provider
+# Default to virtualbox
+# Also available: vmware_fusion, vmware_workstation
+provider: "virtualbox"
+
+# Virtual machine name
+# Used as hostname and displayed name
+name: "homestead"
+
+# VM IP adress
 ip: "192.168.10.10"
-memory: 2048
+
+# VM system settings
 cpus: 1
+memory: 2048
 
+# VM forwarded ports (unlimited)
+ports:
+  - guest: 80
+    host: 8000
+  - guest: 443
+    host: 44300
+  - guest: 3306
+    host: 33060
+  - guest: 5432
+    host: 54320
+
+# VM shared folders (unlimited)
 folders:
-  - map: ./www/default
-    to: /home/vagrant/default
+  - guest: /home/vagrant/project
+    host: ./www/project
 
+# Nginx sites (unlimited)
+# For HHVM, set hhvm: true
 sites:
-  - map: homestead.app
-    to: /home/vagrant/default/public
+  - map: /home/vagrant/default/public
+    to: homestead.app
 
+# MySQL & PgSQL databases (unlimited)
 databases:
   - homestead
 
+# Local variables (unlimited)
 variables:
   - key: APP_ENV
     value: local

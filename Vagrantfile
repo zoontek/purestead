@@ -14,33 +14,62 @@ afterPath = File.expand_path("../scripts/after-provision.sh", __FILE__)
 # Parse settings
 settings = YAML::load(File.read(configPath))
 
+# Defaults fallbacks
+settings["provider"] ||= "virtualbox"
+settings["name"] ||= "homestead"
+settings["ip"] ||= "192.168.10.10"
+settings["memory"] ||= 2048
+settings["cpus"] ||= 1
+
+# Set the default provider
+ENV["VAGRANT_DEFAULT_PROVIDER"] = settings["provider"]
+
+
 Vagrant.configure("2") do |config|
   # Configure the box
   config.vm.box = "laravel/homestead"
-  config.vm.hostname = settings["hostname"] ||= "homestead"
+  config.vm.hostname = settings["name"]
+
+  # Configure SSH
+  config.ssh.forward_agent = true
 
   # Configure a private network IP
-  config.vm.network :private_network, ip: settings["ip"] || "192.168.10.10"
+  config.vm.network :private_network, ip: settings["ip"]
 
   # Configure VirtualBox settings
-  config.vm.provider "virtualbox" do |vb|
-    vb.name = settings["hostname"]
-    vb.customize ["modifyvm", :id, "--memory", settings["memory"] || "2048"]
-    vb.customize ["modifyvm", :id, "--cpus", settings["cpus"] || "1"]
-    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+  config.vm.provider "virtualbox" do |provider|
+    provider.name = settings["name"]
+    provider.customize ["modifyvm", :id, "--memory", settings["memory"]]
+    provider.customize ["modifyvm", :id, "--cpus", settings["cpus"]]
+    provider.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    provider.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    provider.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+  end
+
+  # Configure VMware Workstation settings
+  config.vm.provider "vmware_workstation" do |provider|
+    provider.vmx["displayName"] = settings["name"]
+    provider.vmx["memsize"] = settings["memory"]
+    provider.vmx["numvcpus"] = settings["cpus"]
+    provider.vmx["guestOS"] = "ubuntu-64"
+  end
+
+  # Configure VMware Fusion settings
+  config.vm.provider "vmware_fusion" do |provider|
+    provider.vmx["displayName"] = settings["name"]
+    provider.vmx["memsize"] = settings["memory"]
+    provider.vmx["numvcpus"] = settings["cpus"]
+    provider.vmx["guestOS"] = "ubuntu-64"
   end
 
   # Configure port forwarding to the box
-  config.vm.network "forwarded_port", guest: 80, host: 8000
-  config.vm.network "forwarded_port", guest: 443, host: 44300
-  config.vm.network "forwarded_port", guest: 3306, host: 33060
-  config.vm.network "forwarded_port", guest: 5432, host: 54320
+  settings["ports"].each do |port|
+    config.vm.network "forwarded_port", guest: port["guest"], host: port["host"]
+  end
 
   # Register all of the configured shared folders
   settings["folders"].each do |folder|
-    config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] || nil
+    config.vm.synced_folder folder["host"], folder["guest"], type: folder["type"] || nil
   end
 
   # Install all the configured Nginx sites
