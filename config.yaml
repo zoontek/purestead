@@ -27,6 +27,7 @@ ports:
     host: 54320
 
 # VM shared folders (unlimited)
+# You can use relative paths (~)
 folders:
   - guest: /home/vagrant/project
     host: ./www/project
