@@ -26,3 +26,15 @@ function serve-php() {
     echo "  serve-php domain path"
   fi
 }
+
+function create-database() {
+  if [[ "$1" ]]
+  then
+    sudo dos2unix /vagrant/scripts/create-database.sh
+    sudo bash /vagrant/scripts/create-database.sh "$1"
+  else
+    echo "Error: missing required parameters."
+    echo "Usage: "
+    echo "  create-database name"
+  fi
+}
