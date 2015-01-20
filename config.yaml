@@ -28,14 +28,14 @@ ports:
 # Shared folders ∞
 # Also think about relative paths (~)
 folders:
-  - guest: /home/vagrant
-    host: ./www
+  - guest: /home/vagrant/code
+    host: ./code
 
 # Nginx sites ∞
 # For HHVM, set hhvm: true
 sites:
   - map: homestead.app
-    to: /home/vagrant/laravel/public
+    to: /home/vagrant/code/laravel/public
 
 # Databases ∞
 databases:
