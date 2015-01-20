@@ -4,18 +4,17 @@
 # Also available: vmware_fusion, vmware_workstation
 provider: "virtualbox"
 
-# Virtual machine name
-# Used as hostname and displayed name
+# Virtual Machine name
 name: "homestead"
 
-# VM IP adress
+# IP address
 ip: "192.168.10.10"
 
-# VM system settings
+# System settings
 cpus: 1
 memory: 2048
 
-# VM forwarded ports (unlimited)
+# Forwarded ports ∞
 ports:
   - guest: 80
     host: 8000
@@ -26,23 +25,23 @@ ports:
   - guest: 5432
     host: 54320
 
-# VM shared folders (unlimited)
-# You can use relative paths (~)
+# Shared folders ∞
+# Also think about relative paths (~)
 folders:
-  - guest: /home/vagrant/project
-    host: ./www/project
+  - guest: /home/vagrant
+    host: ./www
 
-# Nginx sites (unlimited)
+# Nginx sites ∞
 # For HHVM, set hhvm: true
 sites:
   - map: homestead.app
-    to: /home/vagrant/project/public
+    to: /home/vagrant/laravel/public
 
-# Databases (unlimited)
+# Databases ∞
 databases:
   - homestead
 
-# Local variables (unlimited)
+# Local variables ∞
 variables:
   - key: APP_ENV
     value: local
