@@ -19,3 +19,6 @@ Temporary Items
 
 # Vagrant
 .vagrant/
+
+# PHPstorm
+.idea/
