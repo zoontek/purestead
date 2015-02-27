@@ -63,8 +63,16 @@ Vagrant.configure("2") do |config|
   end
 
   # Configure port forwarding to the box
-  settings["ports"].each do |port|
-    config.vm.network "forwarded_port", guest: port["guest"], host: port["host"]
+  config.vm.network "forwarded_port", guest: 80, host: 8000
+  config.vm.network "forwarded_port", guest: 443, host: 44300
+  config.vm.network "forwarded_port", guest: 3306, host: 33060
+  config.vm.network "forwarded_port", guest: 5432, host: 54320
+
+  # Add custom ports from configuration
+  if settings.has_key?("ports")
+    settings["ports"].each do |port|
+      config.vm.network "forwarded_port", guest: port["guest"] || port["to"], host: port["host"] || port["send"], protocol: port["protocol"] ||= "tcp"
+    end
   end
 
   # Register all of the configured shared folders
@@ -76,11 +84,11 @@ Vagrant.configure("2") do |config|
   settings["sites"].each do |site|
     config.vm.provision "shell" do |s|
       if (site.has_key?("hhvm") && site["hhvm"])
-        s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\""
-        s.args = [site["map"], site["to"]]
+        s.inline = "bash /vagrant/scripts/serve-hhvm.sh $1 \"$2\" $3"
+        s.args = [site["map"], site["to"], site["port"] ||= 80]
       else
-        s.inline = "bash /vagrant/scripts/serve-php.sh $1 \"$2\""
-        s.args = [site["map"], site["to"]]
+        s.inline = "bash /vagrant/scripts/serve.sh $1 \"$2\" $3"
+        s.args = [site["map"], site["to"], site["port"] ||= 80]
       end
     end
   end
@@ -88,9 +96,14 @@ Vagrant.configure("2") do |config|
   # Create all of the configured databases
   settings["databases"].each do |db|
     config.vm.provision "shell" do |s|
-      s.path = File.expand_path("../scripts/create-database.sh", __FILE__)
-      s.args = [db]
-    end
+        s.path = "./scripts/create-mysql.sh"
+        s.args = [db]
+      end
+
+      config.vm.provision "shell" do |s|
+        s.path = "./scripts/create-postgres.sh"
+        s.args = [db]
+      end
   end
 
   # Configure all of the server environment variables

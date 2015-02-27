@@ -14,17 +14,6 @@ ip: "192.168.10.10"
 cpus: 1
 memory: 2048
 
-# Forwarded ports ∞
-ports:
-  - guest: 80
-    host: 8000
-  - guest: 443
-    host: 44300
-  - guest: 3306
-    host: 33060
-  - guest: 5432
-    host: 54320
-
 # Shared folders ∞
 # Also think about relative paths (~)
 folders:

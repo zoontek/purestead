@@ -3,7 +3,6 @@
 Use Laravel Homestead, the Vagrant way
 - VMware compatibility
 - No SSH configuration
-- Ports forwarding configuration
 - Mutiple named VMs
 - No specific PHP CLI
 
