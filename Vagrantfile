@@ -7,9 +7,9 @@ require "yaml"
 Vagrant.require_version ">= 1.5.0"
 
 # Get files paths
-configPath = File.expand_path("../config.yaml", __FILE__)
-aliasesPath = File.expand_path("../scripts/aliases", __FILE__)
-afterPath = File.expand_path("../scripts/after.sh", __FILE__)
+configPath = File.expand_path("./config.yaml", __FILE__)
+aliasesPath = File.expand_path("./scripts/aliases", __FILE__)
+afterPath = File.expand_path("./scripts/after.sh", __FILE__)
 
 # Parse settings
 settings = YAML::load(File.read(configPath))
@@ -113,6 +113,11 @@ Vagrant.configure("2") do |config|
         s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
         s.args = [var["key"], var["value"]]
       end
+
+      config.vm.provision "shell" do |s|
+        s.inline = "echo \"\n#Set Homestead environment variable\nexport $1=$2\" >> /home/vagrant/.profile"
+        s.args = [var["key"], var["value"]]
+      end
     end
 
     config.vm.provision "shell" do |s|
@@ -123,6 +128,14 @@ Vagrant.configure("2") do |config|
   # Update Composer On Every Provision
   config.vm.provision "shell" do |s|
     s.inline = "/usr/local/bin/composer self-update"
+  end
+
+  # Configure Blackfire.io
+  if settings.has_key?("blackfire")
+    config.vm.provision "shell" do |s|
+      s.path = "./scripts/blackfire.sh"
+      s.args = [settings["blackfire"][0]["id"], settings["blackfire"][0]["token"]]
+    end
   end
 
   # Copy bash aliases file
