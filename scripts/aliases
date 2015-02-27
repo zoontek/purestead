@@ -1,3 +1,7 @@
+alias ..="cd .."
+alias ...="cd ../.."
+alias c='clear'
+
 function serve() {
   echo "\"serve\" command is not available in Purestead."
   echo "Use \"serve-hhvm\" or \"serve-php\" instead."
