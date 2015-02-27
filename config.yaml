@@ -34,3 +34,8 @@ databases:
 variables:
   - key: APP_ENV
     value: local
+
+# Blackfire config
+# blackfire:
+#   - id: foo
+#     token: bar
