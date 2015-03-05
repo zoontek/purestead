@@ -7,9 +7,9 @@ require "yaml"
 Vagrant.require_version ">= 1.5.0"
 
 # Get files paths
-configPath = File.expand_path("./config.yaml", __FILE__)
-aliasesPath = File.expand_path("./scripts/aliases", __FILE__)
-afterPath = File.expand_path("./scripts/after.sh", __FILE__)
+configPath = File.expand_path("../config.yaml", __FILE__)
+aliasesPath = File.expand_path("../scripts/aliases", __FILE__)
+afterPath = File.expand_path("../scripts/after.sh", __FILE__)
 
 # Parse settings
 settings = YAML::load(File.read(configPath))
