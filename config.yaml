@@ -17,14 +17,14 @@ memory: 2048
 # Shared folders ∞
 # Also think about relative paths (~)
 folders:
-  - guest: /home/vagrant/code
-    host: ./code
+  - guest: /home/vagrant/shared
+    host: ./shared
 
 # Nginx sites ∞
 # For HHVM, set hhvm: true
 sites:
   - map: homestead.app
-    to: /home/vagrant/code/laravel/public
+    to: /home/vagrant/shared/laravel/public
 
 # Databases ∞
 databases:
