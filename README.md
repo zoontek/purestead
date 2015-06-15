@@ -3,7 +3,7 @@
 Use Laravel Homestead, the Vagrant way
 - VMware compatibility
 - No SSH configuration
-- Mutiple named VMs
+- Multiple named VMs
 - No specific PHP CLI
 
 Before everything, you must install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
@@ -48,4 +48,4 @@ Create databases
 create-database name
 ```
 
-Feel free to check [Homestead](http://laravel.com/docs/4.2/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.
+Feel free to check [Homestead](http://laravel.com/docs/5.1/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.
