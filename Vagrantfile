@@ -26,6 +26,9 @@ ENV["VAGRANT_DEFAULT_PROVIDER"] = settings["provider"]
 
 
 Vagrant.configure("2") do |config|
+  # Prevent TTY errors
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
   # Configure the box
   config.vm.box = "laravel/homestead"
   config.vm.hostname = settings["name"]
