@@ -20,7 +20,7 @@ cd purestead
 
 4) Use traditionnal Vagrant commands, like:
 ```
-vagrant up
+vagrant up (--provision)
 vagrant ssh
 vagrant provision
 vagrant reload (--provision)
