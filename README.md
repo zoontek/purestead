@@ -1,11 +1,6 @@
 # Purestead
 
-Use Laravel Homestead, the Vagrant way
-- VMware compatibility
-- No SSH configuration
-- Multiple named VMs
-- No specific PHP CLI
-
+Use Laravel Homestead, the Vagrant way (multiple named VMs, no specific PHP CLI)
 Before everything, you must install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
 
 1) Download the Homestead Vagrant box.
@@ -21,7 +16,7 @@ git clone https://github.com/zoontek/purestead.git
 cd purestead
 ```
 
-3) Edit config.yaml.
+3) Edit the config.yaml file.
 
 4) Use traditionnal Vagrant commands, like:
 ```
@@ -30,22 +25,13 @@ vagrant ssh
 vagrant provision
 vagrant reload (--provision)
 vagrant halt
-...
+…
 ```
 
-## Also available (inside the VM)
+## Update homestead scripts
 
-Add additional sites
 ```
-serve-php domain.app /home/vagrant/project/path/to/public/directory
-```
-```
-serve-hhvm domain.app /home/vagrant/project/path/to/public/directory
+sh update.sh
 ```
 
-Create databases
-```
-create-database name
-```
-
-Feel free to check [Homestead](http://laravel.com/docs/5.1/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.
+Feel free to check [Homestead](http://laravel.com/docs/5.2/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.

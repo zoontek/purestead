@@ -1,41 +1,34 @@
 ---
-# Vagrant default provider
-# Default to virtualbox
-# Also available: vmware_fusion, vmware_workstation
-provider: "virtualbox"
-
-# Virtual Machine name
-name: "homestead"
-
-# IP address
 ip: "192.168.10.10"
-
-# System settings
-cpus: 1
 memory: 2048
+cpus: 1
+provider: virtualbox
 
-# Shared folders ∞
-# Also think about relative paths (~)
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
 folders:
-  - guest: /home/vagrant/shared
-    host: ./shared
+    - map: ./shared
+      to: /home/vagrant/shared
 
-# Nginx sites ∞
-# For HHVM, set hhvm: true
 sites:
-  - map: homestead.app
-    to: /home/vagrant/shared/laravel/public
+    - map: homestead.app
+      to: /home/vagrant/shared/laravel/public
 
-# Databases ∞
 databases:
-  - homestead
+    - homestead
 
-# Local variables ∞
-variables:
-  - key: APP_ENV
-    value: local
-
-# Blackfire config
 # blackfire:
-#   - id: foo
-#     token: bar
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
