@@ -40,7 +40,7 @@ class Homestead
     # Configure A Few VMware Settings
     ["vmware_fusion", "vmware_workstation"].each do |vmware|
       config.vm.provider vmware do |v|
-        v.vmx["displayName"] = "homestead"
+        v.vmx["displayName"] = settings["name"] ||= "homestead-7"
         v.vmx["memsize"] = settings["memory"] ||= 2048
         v.vmx["numvcpus"] = settings["cpus"] ||= 1
         v.vmx["guestOS"] = "ubuntu-64"
@@ -74,9 +74,11 @@ class Homestead
     }
 
     # Use Default Port Forwarding Unless Overridden
-    default_ports.each do |guest, host|
-      unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
-        config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+    unless settings.has_key?("default_ports") && settings["default_ports"] == false
+      default_ports.each do |guest, host|
+        unless settings["ports"].any? { |mapping| mapping["guest"] == guest }
+          config.vm.network "forwarded_port", guest: guest, host: host, auto_correct: true
+        end
       end
     end
 
@@ -91,7 +93,7 @@ class Homestead
     if settings.include? 'authorize'
       if File.exists? File.expand_path(settings["authorize"])
         config.vm.provision "shell" do |s|
-          s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+          s.inline = "echo $1 | grep -xq \"$1\" /home/vagrant/.ssh/authorized_keys || echo \"\n$1\" | tee -a /home/vagrant/.ssh/authorized_keys"
           s.args = [File.read(File.expand_path(settings["authorize"]))]
         end
       end
@@ -136,6 +138,11 @@ class Homestead
         options.keys.each{|k| options[k.to_sym] = options.delete(k) }
 
         config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil, **options
+
+        # Bindfs support to fix shared folder (NFS) permission issue on Mac
+        if Vagrant.has_plugin?("vagrant-bindfs")
+          config.bindfs.bind_folder folder["to"], folder["to"]
+        end
       end
     end
 
@@ -148,23 +155,26 @@ class Homestead
     if settings.include? 'sites'
       settings["sites"].each do |site|
         type = site["type"] ||= "laravel"
-  
+
         if (site.has_key?("hhvm") && site["hhvm"])
           type = "hhvm"
         end
-  
+
         if (type == "symfony")
           type = "symfony2"
         end
-  
+
         config.vm.provision "shell" do |s|
+          s.name = "Creating Site: " + site["map"]
           s.path = scriptDir + "/serve-#{type}.sh"
           s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
         end
-  
+
         # Configure The Cron Schedule
         if (site.has_key?("schedule"))
           config.vm.provision "shell" do |s|
+            s.name = "Creating Schedule"
+
             if (site["schedule"])
               s.path = scriptDir + "/cron-schedule.sh"
               s.args = [site["map"].tr('^A-Za-z0-9', ''), site["to"]]
@@ -174,8 +184,13 @@ class Homestead
             end
           end
         end
-  
+
       end
+    end
+
+    config.vm.provision "shell" do |s|
+      s.name = "Restarting Nginx"
+      s.inline = "sudo service nginx restart; sudo service php7.0-fpm restart"
     end
 
     # Install MariaDB If Necessary
@@ -190,11 +205,13 @@ class Homestead
     if settings.has_key?("databases")
         settings["databases"].each do |db|
           config.vm.provision "shell" do |s|
+            s.name = "Creating MySQL Database"
             s.path = scriptDir + "/create-mysql.sh"
             s.args = [db]
           end
 
           config.vm.provision "shell" do |s|
+            s.name = "Creating Postgres Database"
             s.path = scriptDir + "/create-postgres.sh"
             s.args = [db]
           end
@@ -203,6 +220,7 @@ class Homestead
 
     # Configure All Of The Server Environment Variables
     config.vm.provision "shell" do |s|
+        s.name = "Clear Variables"
         s.path = scriptDir + "/clear-variables.sh"
     end
 
