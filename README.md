@@ -1,37 +1,41 @@
 # Purestead
 
-Use Laravel Homestead, the Vagrant way (multiple named VMs, no specific PHP CLI)
-Before everything, you must install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
+Use Laravel Homestead, the Vagrant way (multiple named VMs, no PHP CLI, no `~/.homestead` folder).
 
-1) Download the Homestead Vagrant box.
+#### System Requirements
+- [VirtualBox](https://www.virtualbox.org/) or [VMware](https://www.vmware.com/)
+- [Vagrant](https://www.vagrantup.com/)
+
+### 1. Installing The Homestead Vagrant Box
 
 ```
 vagrant box add laravel/homestead
 ```
 
-2) Clone this repository.
+### 2. Installing Purestead
 
 ```
-git clone https://github.com/zoontek/purestead.git
-cd purestead
+git clone https://github.com/zoontek/purestead.git && cd purestead
 ```
 
-3) Edit the config.yaml file.
+### 3. Configuring Purestead
 
-4) Use traditionnal Vagrant commands, like:
+As Purestead is 100% compatible with Homestead config, take a look at [the official documentation](https://laravel.com/docs/master/homestead) to edit the `config.yaml` file.
+
+### 4. Enjoy using traditionnal Vagrant commands
 ```
-vagrant up (--provision)
+vagrant up --provision
 vagrant ssh
 vagrant provision
-vagrant reload (--provision)
+vagrant reload --provision
 vagrant halt
 …
 ```
 
-## Update homestead scripts
+### Bonus: Grab lastest Homestead scripts and aliases
+
+As Purestead scripts and aliases may be outdated since a potentially recent Homestead update, feel free to update them using Homestead ones *(`git` must be installed and accessible)*
 
 ```
 sh update.sh
 ```
-
-Feel free to check [Homestead](http://laravel.com/docs/5.2/homestead) and [Vagrant](https://docs.vagrantup.com/v2/cli/index.html) documentations for more informations.
