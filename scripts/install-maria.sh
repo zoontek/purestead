@@ -1,4 +1,5 @@
-
+#!/usr/bin/env bash
+export DEBIAN_FRONTEND=noninteractive
 # Check If Maria Has Been Installed
 
 if [ -f /home/vagrant/.maria ]
@@ -8,6 +9,13 @@ then
 fi
 
 touch /home/vagrant/.maria
+
+# Disable Apparmor
+# See https://github.com/laravel/homestead/issues/629#issue-247524528
+
+sudo service apparmor stop
+sudo service apparmor teardown
+sudo update-rc.d -f apparmor remove
 
 # Remove MySQL
 
@@ -21,25 +29,21 @@ rm -rf /etc/mysql
 
 # Add Maria PPA
 
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.1/ubuntu xenial main'
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.osuosl.org/pub/mariadb/repo/10.2/ubuntu xenial main'
 apt-get update
 
 # Set The Automated Root Password
 
 export DEBIAN_FRONTEND=noninteractive
 
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/data-dir select ''"
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password password secret"
-debconf-set-selections <<< "mariadb-server-10.1 mysql-server/root_password_again password secret"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/data-dir select ''"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/root_password password secret"
+debconf-set-selections <<< "mariadb-server-10.2 mysql-server/root_password_again password secret"
 
 # Install MariaDB
 
 apt-get install -y mariadb-server
-
-# Configure Password Expiration
-
-echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
 
 # Configure Maria Remote Access
 
